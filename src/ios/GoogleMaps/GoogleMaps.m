@@ -24,7 +24,13 @@
     //[self versionCheck];
 
 
-    self.pluginLayer = [[MyPluginLayer alloc] initWithFrame:self.webView.frame];
+    // Fix layout issue for Google Maps:
+    // https://github.com/mapsplugin/cordova-plugin-googlemaps/issues/657
+    // self.pluginLayer = [[MyPluginLayer alloc] initWithFrame:self.webView.frame];
+    CGRect viewBounds = [self.webView bounds];
+    viewBounds.size.height = viewBounds.size.height + 20;
+    self.pluginLayer = [[MyPluginLayer alloc] initWithFrame:viewBounds];
+
     self.pluginLayer.backgroundColor = [UIColor whiteColor];
     self.pluginLayer.webView = self.webView;
     self.pluginLayer.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
